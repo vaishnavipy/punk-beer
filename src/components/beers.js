@@ -3,15 +3,17 @@ import {siteContext} from "../siteContext"
 
 function Beers(){
 
-    const [beerArr,setBeerArr] = useState([])
+    const [beerArrOriginal,setBeerArrOriginal] = useState([])
 
-    const {page} = useContext(siteContext)
+    const [beerArrFiltered,setBeerArrFiltered] = useState([])
+
+    const {page,filter} = useContext(siteContext)
 
 
     useEffect(()=>{
         fetch(`https://api.punkapi.com/v2/beers?page=${page}`)
         .then(response => response.json())
-        .then(data => setBeerArr(data))
+        .then(data => setBeerArrOriginal(data))
         .catch(err => console.log(err))
     },[])
 
@@ -19,12 +21,53 @@ function Beers(){
 
         fetch(`https://api.punkapi.com/v2/beers?page=${page}`)
         .then(response => response.json())
-        .then(data => setBeerArr(data))
+        .then(data => setBeerArrOriginal(data))
         .catch(err => console.log(err))
 
     },[page]) 
 
-    const all_beers = beerArr.map((beer,i) => {
+    useEffect(()=>{
+        setBeerArrFiltered(beerArrOriginal)
+    },[beerArrOriginal])
+
+    useEffect(()=>{
+    
+        const {ABV} = filter
+        if(ABV !== "All"){
+            setBeerArrFiltered(beerArrOriginal.filter(beers => {
+                if(ABV === "S"){
+                    return beers.abv > 0 && beers.abv < 4
+                }else if(ABV === "M"){
+                    return beers.abv >= 4  && beers.abv <7
+                }else{
+                    return beers.abv >= 7
+                }
+
+            } ))
+        }else{
+            setBeerArrFiltered(beerArrOriginal);
+        }
+    },[filter.ABV])
+
+    useEffect(()=>{
+    
+        const {hops} = filter;
+        if(hops !== "All"){
+            setBeerArrFiltered(beerArrOriginal.filter(beers => {
+                if(hops === "S"){
+                    return beers.hops > 0 && beers.hops < 30
+                }else if(hops === "M"){
+                    return beers.hops >= 40  && beers.hops <70
+                }else{
+                    return beers.hops >= 70
+                }
+            }))
+        }{
+                setBeerArrFiltered(beerArrOriginal)
+        }
+    },[filter.hops])
+
+    const all_beers = beerArrFiltered.map((beer,i) => {
         return(<BeerCard beer={beer} />)
     })
 
@@ -49,14 +92,14 @@ function BeerCard({beer}){
                 <p>IBU : {beer.ibu}</p>
             </div>
         </div>
-       {hover && 
+      
         <div className="beer-details">
             <h1>{beer.name}</h1>
             <p><em>{beer.tagline}</em></p>
             <hr className="line"/>
             <p>{beer.description}</p>
             <p><em>Pairings : {(beer.food_pairing).join(",")}</em></p>
-        </div>}
+        </div>
     </div>)
 }
 

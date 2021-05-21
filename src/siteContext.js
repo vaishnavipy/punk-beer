@@ -5,7 +5,9 @@ const siteContext  = React.createContext("");
 
 function SiteContextProvider({children}){
 
-    const [page,setPage] = useState(1)
+    const [page,setPage] = useState(1);
+
+    const [filter,setFilter] = useState({ABV:"All",hops:"All"});
 
     function goToNextPage(){
         setPage(prevPage => prevPage+1)
@@ -21,8 +23,12 @@ function SiteContextProvider({children}){
         })
     }
 
+    function filterBeer(fname,value){
+        setFilter(prevState => ({...prevState,[fname] :value } ) )
+    }
+
     return(
-    <siteContext.Provider value={{page,goToPreviousPage,goToNextPage}}>
+    <siteContext.Provider value={{page,goToPreviousPage,goToNextPage,filterBeer,filter}}>
         {children}
     </siteContext.Provider>)
 

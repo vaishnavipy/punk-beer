@@ -17,6 +17,8 @@ h1{
 .container{
   padding: 2em 2em;
   background-color: #F1F1F1;
+  height: 100vh;
+  overflow: scroll;
 
 }
 .filters-container{
@@ -70,7 +72,9 @@ h1{
  cursor: pointer;
  position: relative;
 }
-
+.beer-card:hover .beer-details{
+  display: block;
+}
 
 .beer-card-content{
   padding: 1em 1em;
@@ -91,6 +95,7 @@ h1{
  transition: all 0.5s;
  text-align: left;
  color: #333340;
+ display: none;
 }
 .beer-details h1{
 
