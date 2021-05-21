@@ -1,6 +1,9 @@
 body{
 
 }
+*{
+  box-sizing: border-box;
+}
 .header{
   background-color: #0565C0;
   color: white;
@@ -60,18 +63,52 @@ h1{
   margin: 2em 0;
 }
 .beer-card{
-  padding: 2em 1em;
+ 
   box-shadow: 4px 4px 4px gray;
   background-color: white;
-  display: flex;
-  flex-direction: column;
  text-align: center;
  cursor: pointer;
+ position: relative;
+}
+
+
+.beer-card-content{
+  padding: 1em 1em;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.beer-details{
+  padding: 1em 1em;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+ position: absolute;
+ top:0px;
+ transition: all 0.5s;
+ text-align: left;
+ color: #333340;
+}
+.beer-details h1{
+
+  padding: 0;
+  margin: 0;
+}
+.beer-details:hover{
+  background: rgba(255,255,255,0.9);
+  
 }
 .beer-card-flex{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+}
+.line{
+  border: 1px solid #0565C0;
 }
 h2{
   padding: 0;

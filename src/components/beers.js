@@ -24,21 +24,39 @@ function Beers(){
 
     },[page]) 
 
-    const beers = beerArr.map((beer,i) => {
-        return(
-        <div className="beer-card" key={beer.id}>
+    const all_beers = beerArr.map((beer,i) => {
+        return(<BeerCard beer={beer} />)
+    })
+
+    return(
+    <div className="all-beers-container">
+        {all_beers}
+    </div>)
+}
+
+function BeerCard({beer}){
+
+    const [hover,setHover] = useState(false) 
+
+    return(
+    <div className="beer-card" key={beer.id} onMouseEnter={()=>{setHover(true)}} onMouseLeave={()=>{setHover(false)}}>
+
+        <div className="beer-card-content">
             <div className="beer-img-div"><img src={beer.image_url}/></div>
             <h2>{beer.name}</h2>
             <div className="beer-card-flex">
                 <p>ABV : {beer.abv}%</p>
                 <p>IBU : {beer.ibu}</p>
             </div>
-        </div>)
-    })
-
-    return(
-    <div className="all-beers-container">
-        {beers}
+        </div>
+       {hover && 
+        <div className="beer-details">
+            <h1>{beer.name}</h1>
+            <p><em>{beer.tagline}</em></p>
+            <hr className="line"/>
+            <p>{beer.description}</p>
+            <p><em>Pairings : {(beer.food_pairing).join(",")}</em></p>
+        </div>}
     </div>)
 }
 
